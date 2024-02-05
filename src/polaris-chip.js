@@ -1,30 +1,16 @@
-// we import JS code into this JS code. Modular javascript is a big deal
-// more modern (relatively speaking) and allows the web to feel like
-// a full blown development environment
+// Import LitElement and necessary functions from lit library
 import { LitElement, html, css } from 'lit';
+// Import the MyCard class from the my-card.js file
+import { MyCard } from './my-card.js';
 
-// export means that other JS files can reference this JS file and
-// pull in this class
-
-// class means it's a full object to work with with methods and properties
-// extends means this class is built off another
-// LitElement is a small helper from lit.dev which makes it easy
-// to understand how to build web components. Think of it like jQuery
-// as far as built juuuuust on top of vanillaJS to make it easier to build
-// things. However, unlike jQuery, ALL things built on Web components are
-// compatible with all things built on other web component systems!
-// We will only stick with Lit for this class and look at Vanilla examples
-// but compatibility across sites / libraries is unique to web components
-// and not a thing in React, Vue, Angular, etc
+// Define the PolarisChip class that extends LitElement
 export class PolarisChip extends LitElement {
-  // this is not a requirement, but it's a convention I personally enjoy
-  // because it helps when looking at multiple elements. I open this file
-  // I glance and go "oh the HTML tag for this code is called polaris-chip"
-  // see the very bottom of the file for where this is actually implemented
+  // Static method to get the tag name for this custom element
   static get tag() {
     return 'polaris-chip';
   }
-  // constructor establishes defaults for the class
+
+  // Constructor to set default values for properties
   constructor() {
     super();
     // a variable on this object called title
@@ -32,10 +18,7 @@ export class PolarisChip extends LitElement {
     this.link = "#";
   }
 
-  // CSS styles are scoped JUST to this element. This uses a technology called
-  // "Shadow DOM" which is ver controversial to some, but to new people and new
-  // things, it's incredible. It automatically ensures that the things in your render()
-  // method below it look exactly the same always no matter where they are loaded!
+  // Static method to define scoped styles for the custom element
   static get styles() {
     // "css" called here is actually a function exported from Lit at the top
     // so that it scopes the CSS nicely and also applies sanitization
@@ -110,3 +93,4 @@ export class PolarisChip extends LitElement {
 // in order to deliver optimal performance with minimal "syntactical sugar"
 // aka things specific to Lit itself
 globalThis.customElements.define(PolarisChip.tag, PolarisChip);
+globalThis.customElements.define(MyCard.tag, MyCard);
