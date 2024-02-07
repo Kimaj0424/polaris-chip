@@ -9,7 +9,7 @@ export class MyCard extends LitElement {
   constructor() {
     super();
     this.title = "Adam Kim's Card";
-    this.imageSrc = "https://www.dhresource.com/webp/m/0x0/f2/albu/g20/M01/82/34/rBVaqGCbpbuAZ5VyAAC8IoN879A617.jpg";
+    this.image-src = "https://www.dhresource.com/webp/m/0x0/f2/albu/g20/M01/82/34/rBVaqGCbpbuAZ5VyAAC8IoN879A617.jpg";
     this.content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin quis justo nec turpis gravida aliquam.";
   }
 
