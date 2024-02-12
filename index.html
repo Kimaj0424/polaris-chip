@@ -1,12 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="Description" content="Boilerplate for polaris chip">
-  <base href="/">
-
+  <title>polaris-chip / my-card</title>
   <style>
     :root,
     html,
@@ -16,33 +14,35 @@
       font-family: sans-serif;
       background-color: #ededed;
     }
-
-    polaris-chip {
-      margin: 16px;
+    .button-wrapper {
+      margin-bottom: 20px;
     }
   </style>
-  <title>polaris-chip / my-card</title>
 </head>
-
 <body>
   <h1>polaris-chip</h1>
-  <!-- this is going to do whatever the tag's defaults are -->
-  <polaris-chip title="News of Record" link="https://psu.edu/"></polaris-chip>
-  <polaris-chip title="Faculty and Staff"></polaris-chip>
-  <polaris-chip title="Sports are the only thing that matter"></polaris-chip>
-  <polaris-chip title="Grants and donations"></polaris-chip>
+  
+  <div class="button-wrapper">
+    <button class="duplicate">Clone Card</button>
+    <button id="changetitle">Change Title</button>
+    <button id="changeimage">Change Image</button>
+    <button id="changebg">Change Background</button>
+    <button id="delete">Delete Card</button>
+  </div>
 
-  <h1>my-card</h1>
+  <h2>My Cards</h2>
+  <!-- Variation 1: Changing title, image source, and content -->
+  <my-card title="New Title 1" imageSrc="https://i.pinimg.com/564x/23/d6/e7/23d6e7939d4a41d55c64689016720484.jpg" content="New Content 1"></my-card>
+  <!-- Variation 2: Changing title and image source -->
+  <my-card title="New Title 2" imageSrc="https://i.pinimg.com/564x/47/b1/99/47b199aac4691e650432a1aa4f354d2b.jpg" content="Content 2"></my-card>
+  <!-- Variation 3: Changing title and content -->
+  <my-card title="New Title 3" imageSrc="https://i.pinimg.com/564x/38/b7/11/38b711932e6df8cf86199abbe855ce6e.jpg" content="New Content 3"></my-card>
+  <!-- Variation 4: Changing image source and content -->
+  <my-card title="Card 4" imageSrc="https://i.pinimg.com/564x/59/a6/f4/59a6f40edfb5773ab2c70a5ad137a611.jpg" content="New Content 4"></my-card>
+  <!-- Variation 5: Changing only the title -->
+  <my-card title="New Title 5" imageSrc="https://i.pinimg.com/564x/eb/b5/84/ebb5840606c5598aac2f29d93b2acc5c.jpg" content="Content 5"></my-card>
 
-  <my-card title="Card 1" image-src="https://i.pinimg.com/564x/23/d6/e7/23d6e7939d4a41d55c64689016720484.jpg" content="Content 1"></my-card>
-  <my-card title="Card 2" image-src="https://i.pinimg.com/564x/47/b1/99/47b199aac4691e650432a1aa4f354d2b.jpg" content="Content 2"></my-card>
-  <my-card title="Card 3" image-src="https://i.pinimg.com/564x/38/b7/11/38b711932e6df8cf86199abbe855ce6e.jpg" content="Content 3"></my-card>
-  <my-card title="Card 4" image-src="https://i.pinimg.com/564x/59/a6/f4/59a6f40edfb5773ab2c70a5ad137a611.jpg" content="Content 4"></my-card>
-  <my-card title="Card 5" image-src="https://i.pinimg.com/564x/eb/b5/84/ebb5840606c5598aac2f29d93b2acc5c.jpg" content="Content 5"></my-card>
-
-  <!-- this is what is bringing in the definition for this tag -->
-  <script type="module" src="./src/polaris-chip.js"></script>
   <script type="module" src="./src/my-card.js"></script>
+  <script src="script.js"></script>
 </body>
-
 </html>
