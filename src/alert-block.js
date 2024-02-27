@@ -1,99 +1,90 @@
 import { LitElement, html, css } from 'lit';
 
-export class Alert extends LitElement {
-
+export class AlertBlock extends LitElement {
   static get tag() {
-    return 'campus-alert';
+    return 'alert-block';
   }
 
   constructor() {
     super();
-    this.issueLevel = "";
-    this.message = "This is a default message.";
-    this.sticky = false;
     this.opened = true;
+    this.status = 'notice';
+    this.date = '';
+    this.sticky = false;
+    this.closedHeight = '54px';
+    this.openHeight = '185px';
+
+    const storedStatus = localStorage.getItem('alertStatus');
+    if (storedStatus === 'closed') {
+      this.opened = false;
+    }
   }
 
   static get styles() {
     return css`
       :host {
-        font-size: 16px; 
-      }
-      :host([number="25"]){
-        color: orange;
-      }
-
-      .sticky {
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        opacity: 1.0;
-      }
-
-      .campus-alert {
-        font-size: 1em;
         display: block;
-        padding: 16px;
-        margin: 16px;
+        font-family: sans-serif;
       }
 
-      .message {
-        font-size: 20px;
-        color: white;
+      .alert {
+        padding: 16px;
+        background-color: var(--alert-bg, #ededed);
+        color: var(--alert-text-color, #000);
+        transition: max-height 0.3s ease;
+        overflow: hidden;
+        max-height: var(--alert-height, 185px);
+      }
+
+      .closed .alert {
+        max-height: var(--closed-height, 54px);
+      }
+
+      .toggle-button {
+        cursor: pointer;
+        border: none;
+        background: none;
+        color: var(--button-color, #000);
+        font-size: 14px;
       }
     `;
   }
 
-  openedView(color) {
-    return html `
-      <div class="campus-alert ${(this.sticky) ? "sticky" : ""}" style="background-color:${color}">
-        <p class="message">${this.message}</p>
+  toggleAlert() {
+    if (this.sticky && !this.opened) {
+      this.opened = true;
+      localStorage.removeItem('alertStatus');
+    } else {
+      this.opened = !this.opened;
+      if (!this.opened) {
+        localStorage.setItem('alertStatus', 'closed');
+      }
+    }
+    this.requestUpdate();
+  }
+
+  render() {
+    return html`
+      <div class="alert ${this.opened ? '' : 'closed'}">
+        <div class="toggle-button" @click="${this.toggleAlert}">
+          ${this.opened ? 'Close' : 'Open'} Alert
+        </div>
+        <slot></slot>
+        <div class="date">${this.date}</div>
       </div>
     `;
   }
 
-  closedView() {
-    return html `
-      <div>This is closed</div>
-    `;
-  }
-
-  render() {
-    let color = "white";
-    if(this.issueLevel === "notice") color = "green";
-    if(this.issueLevel === "warning") color = "orange";
-    if(this.issueLevel === "alert") color = "red";
-    if(this.issueLevel === "welcome") color = "grey";
-
-    if(this.issueLevel === "welcome") (this.message) = "Welcome!";
-    if(this.issueLevel === "notice") (this.message) = "Small notice: watch out for this today.";
-    if(this.issueLevel === "warning") (this.message) = "This is a warning. Exceed some caution."
-    if(this.issueLevel === "alert") (this.message) = "This is an alert. PROCEED WITH IMMENSE CAUTION!";
-    
-    return (this.opened) ? this.openedView(color) : this.closedView();
-  }
-
   static get properties() {
     return {
-      issueLevel: { type: String },
-      message: { type: String },
-      sticky: { type: Boolean },
       opened: { type: Boolean, reflect: true },
+      status: { type: String },
+      date: { type: String },
+      sticky: { type: Boolean, reflect: true },
+      closedHeight: { type: String },
+      openHeight: { type: String },
     };
-  }
-
-  toggle() {
-    this.opened = !this.opened;
-    if (!this.opened) {
-      localStorage.setItem('alertClosed', 'true');
-    } else {
-      localStorage.removeItem('alertClosed');
-    }
-    const oppositeButton = this.shadowRoot.querySelector('.btn');
-    if (oppositeButton) {
-      oppositeButton.focus();
-    }
   }
 }
 
-customElements.define(Alert.tag, Alert);
+customElements.define(AlertBlock.tag, AlertBlock);
