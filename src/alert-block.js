@@ -1,75 +1,52 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css } from "lit";
 
 export class AlertBlock extends LitElement {
   static get tag() {
-    return 'alert-block';
+    return "alert-block";
   }
-
   constructor() {
     super();
-    this.opened = true;
-    this.status = 'notice';
-    this.date = '';
-    this.sticky = false;
-    this.closedHeight = '54px';
-    this.openHeight = '185px';
-
-    const storedStatus = localStorage.getItem('alertStatus');
-    if (storedStatus === 'closed') {
-      this.opened = false;
-    }
+    this.close = false;
+    this.sticky = true;
+    this.date = "NOVEMBER 17, 2023 12:00 AM";
+    this.status = "notice";
+    this.link = "https://www.psu.edu/news";
+    this.message="Occaecat laboris incididunt ea labore quis in qui commodo velit cillum et commodo. Dolore consectetur eu eu reprehenderit anim fugiat in nostrud anim magna enim nisi. Mollit est incididunt sin aliqua duis. Deserunt ut velit deserunt fugiat eiusmod. Doincididunt laborum aliqua cupidatat adipisicing fugiat reprehenderit cillum id. Minim minim elit occaecat id velit fugiat ea. Aliqua excepteur ea excepteur cillum esse voluptate non elit laboris laboris esse est sunt incididunt ullamco.";
   }
 
   static get styles() {
     return css`
       :host {
-        display: block;
-        font-family: sans-serif;
+        color: #ffffff;
+        width: 100%;
+        min-height: 185px;
+        display: inline-flex;
+        font-family: "Arial", sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        background-color: var(--${this.status}-color);
+        transition: all 0.5s;
+        padding: 20px;
       }
 
-      .alert {
-        padding: 16px;
-        background-color: var(--alert-bg, #ededed);
-        color: var(--alert-text-color, #000);
-        transition: max-height 0.3s ease;
-        overflow: hidden;
-        max-height: var(--alert-height, 185px);
+      .message {
+        margin-top: 20px;
+        line-height: 1.5;
       }
 
-      .closed .alert {
-        max-height: var(--closed-height, 54px);
-      }
-
-      .toggle-button {
-        cursor: pointer;
-        border: none;
-        background: none;
-        color: var(--button-color, #000);
+      .date {
         font-size: 14px;
+        margin-top: 20px;
       }
     `;
   }
 
-  toggleAlert() {
-    if (this.sticky && !this.opened) {
-      this.opened = true;
-      localStorage.removeItem('alertStatus');
-    } else {
-      this.opened = !this.opened;
-      if (!this.opened) {
-        localStorage.setItem('alertStatus', 'closed');
-      }
-    }
-    this.requestUpdate();
-  }
-
   render() {
     return html`
-      <div class="alert ${this.opened ? '' : 'closed'}">
-        <div class="toggle-button" @click="${this.toggleAlert}">
-          ${this.opened ? 'Close' : 'Open'} Alert
-        </div>
-        <slot></slot>
+      <div>
+        <h3>ALERT!</h3>
+        <p class="message">${this.message}</p>
         <div class="date">${this.date}</div>
       </div>
     `;
@@ -77,12 +54,12 @@ export class AlertBlock extends LitElement {
 
   static get properties() {
     return {
-      opened: { type: Boolean, reflect: true },
-      status: { type: String },
+      close: { type: Boolean },
+      sticky: { type: Boolean },
       date: { type: String },
-      sticky: { type: Boolean, reflect: true },
-      closedHeight: { type: String },
-      openHeight: { type: String },
+      status: { type: String },
+      link: { type: String },
+      message: { type: String }
     };
   }
 }
