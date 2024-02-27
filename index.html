@@ -20,17 +20,28 @@
   </style>
 </head>
 <body>
-  <h1>polaris-chip</h1>
-  
-  <div class="button-wrapper">
-    <button class="duplicate">Clone Card</button>
-    <button id="changetitle">Change Title</button>
-    <button id="changeimage">Change Image</button>
-    <button id="changebg">Change Background</button>
-    <button id="delete">Delete Card</button>
-  </div>
+  <h1>Alert!</h1>
 
-  <h2>My Cards</h2>
+  <custom-alert status="notice" date="2024-02-24" sticky>
+    <h3>Something important is happening right now! Please read this message.</h3>
+    <p>ALERT MESSAGE</p>
+  </custom-alert>
+
+  <custom-alert status="warning" date="2024-02-24">
+    <h3>This is a warning message. Pay attention!</h3>
+    <p>ALERT MESSAGE</p>
+  </custom-alert>
+
+  <custom-alert status="alert" date="2024-02-24">
+    <h3>Alert! There is a critical situation that requires your immediate attention.</h3>
+    <p>ALERT MESSAGE</p>
+  </custom-alert>
+
+  <custom-alert id="color-changing-alert" status="notice" date="2024-02-24">
+    <h3>This alert changes colors using CSS variables!</h3>
+    <p>ALERT MESSAGE</p>
+  </custom-alert>
+
   <!-- Variation 1: Changing title, image source, and content -->
   <my-card title="lil lion" imageSrc="https://i.pinimg.com/564x/23/d6/e7/23d6e7939d4a41d55c64689016720484.jpg" content="New Content 1"></my-card>
   <!-- Variation 2: Changing title and image source -->
@@ -47,6 +58,7 @@
 
   <script type="module" src="./src/my-card.js"></script>
   <script type="module" src="./src/counter-app.js"></script>
+  <script type="module" src="./src/alert-block.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
