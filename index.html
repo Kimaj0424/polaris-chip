@@ -17,30 +17,38 @@
     .button-wrapper {
       margin-bottom: 20px;
     }
+
+    /* Define CSS variables for status colors */
+    :root {
+      --notice-color: #3498db;
+      --warning-color: #f39c12;
+      --alert-color: #e74c3c;
+    }
   </style>
 </head>
 <body>
   <h1>Alert!</h1>
 
-  <custom-alert status="notice" date="2024-02-24" sticky>
+  <!-- Alert Blocks -->
+  <alert-block status="notice" date="2024-02-24" sticky>
     <h3>Something important is happening right now! Please read this message.</h3>
     <p>ALERT MESSAGE</p>
-  </custom-alert>
+  </alert-block>
 
-  <custom-alert status="warning" date="2024-02-24">
+  <alert-block status="warning" date="2024-02-24">
     <h3>This is a warning message. Pay attention!</h3>
     <p>ALERT MESSAGE</p>
-  </custom-alert>
+  </alert-block>
 
-  <custom-alert status="alert" date="2024-02-24">
+  <alert-block status="alert" date="2024-02-24">
     <h3>Alert! There is a critical situation that requires your immediate attention.</h3>
     <p>ALERT MESSAGE</p>
-  </custom-alert>
+  </alert-block>
 
-  <custom-alert id="color-changing-alert" status="notice" date="2024-02-24">
+  <alert-block id="color-changing-alert" status="notice" date="2024-02-24">
     <h3>This alert changes colors using CSS variables!</h3>
     <p>ALERT MESSAGE</p>
-  </custom-alert>
+  </alert-block>
 
   <!-- Variation 1: Changing title, image source, and content -->
   <my-card title="lil lion" imageSrc="https://i.pinimg.com/564x/23/d6/e7/23d6e7939d4a41d55c64689016720484.jpg" content="New Content 1"></my-card>
