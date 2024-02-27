@@ -1,52 +1,103 @@
-import { LitElement, html, css } from "lit";
+import { LitElement, html, css } from 'lit';
 
 export class AlertBlock extends LitElement {
   static get tag() {
-    return "alert-block";
+    return 'alert-block';
   }
+
   constructor() {
     super();
-    this.close = false;
-    this.sticky = true;
-    this.date = "NOVEMBER 17, 2023 12:00 AM";
-    this.status = "notice";
-    this.link = "https://www.psu.edu/news";
-    this.message="Occaecat laboris incididunt ea labore quis in qui commodo velit cillum et commodo. Dolore consectetur eu eu reprehenderit anim fugiat in nostrud anim magna enim nisi. Mollit est incididunt sin aliqua duis. Deserunt ut velit deserunt fugiat eiusmod. Doincididunt laborum aliqua cupidatat adipisicing fugiat reprehenderit cillum id. Minim minim elit occaecat id velit fugiat ea. Aliqua excepteur ea excepteur cillum esse voluptate non elit laboris laboris esse est sunt incididunt ullamco.";
+    this.closedHeight = '50px';
+    this.openHeight = '200px';
+    this.open = true;
+    this.status = 'notice';
+    this.date = '';
+    this.sticky = false;
+
+    const storedStatus = localStorage.getItem('alertStatus');
+    if (storedStatus === 'closed') {
+      this.open = false;
+      this.style.setProperty('--alert-height', this.closedHeight);
+    }
   }
 
   static get styles() {
     return css`
-      :host {
-        color: #ffffff;
-        width: 100%;
-        min-height: 185px;
-        display: inline-flex;
-        font-family: "Arial", sans-serif;
-        font-size: 16px;
-        font-weight: 700;
-        margin-bottom: 20px;
-        background-color: var(--${this.status}-color);
-        transition: all 0.5s;
-        padding: 20px;
+      :host([sticky]) .alert-content {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
       }
 
-      .message {
-        margin-top: 20px;
-        line-height: 1.5;
+      :host([status="notice"]) .alert-content {
+        background-color: var(--notice-bg, #3498db);
       }
 
-      .date {
+      :host([status="warning"]) .alert-content {
+        background-color: var(--warning-bg, #f39c12);
+      }
+
+      :host([status="alert"]) .alert-content {
+        background-color: var(--alert-bg, #e74c3c);
+      }
+
+      .alert-content {
+        padding: 10px;
+        max-height: var(--alert-height);
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        color: #fff;
+      }
+
+      .closed .alert-content {
+        max-height: var(--closed-height);
+      }
+
+      @media (max-width: 600px) {
+        :host([sticky]) .alert-content {
+          position: sticky;
+          top: 0;
+        }
+
+        .closed .alert-content {
+          max-height: var(--closed-height);
+        }
+      }
+
+      .toggle-button {
+        cursor: pointer;
+        border: none;
+        background: none;
+        color: #fff;
         font-size: 14px;
-        margin-top: 20px;
       }
     `;
   }
 
+  toggleAlert() {
+    if (this.sticky && !this.open) {
+      this.open = true;
+      this.style.setProperty('--alert-height', this.openHeight);
+      localStorage.removeItem('alertStatus');
+    } else {
+      this.open = !this.open;
+      if (this.open) {
+        this.style.setProperty('--alert-height', this.openHeight);
+      } else {
+        this.style.setProperty('--alert-height', this.closedHeight);
+        localStorage.setItem('alertStatus', 'closed');
+      }
+    }
+    this.requestUpdate();
+  }
+
   render() {
     return html`
-      <div>
-        <h3>ALERT!</h3>
-        <p class="message">${this.message}</p>
+      <div class="alert-content ${this.open ? '' : 'closed'}" ?sticky="${this.sticky}">
+        <div class="toggle-button" @click="${this.toggleAlert}">
+          ${this.open ? 'Close' : 'Open'} Alert
+        </div>
+        <slot></slot>
         <div class="date">${this.date}</div>
       </div>
     `;
@@ -54,12 +105,12 @@ export class AlertBlock extends LitElement {
 
   static get properties() {
     return {
-      close: { type: Boolean },
-      sticky: { type: Boolean },
-      date: { type: String },
+      open: { type: Boolean, reflect: true },
       status: { type: String },
-      link: { type: String },
-      message: { type: String }
+      date: { type: String },
+      sticky: { type: Boolean, reflect: true },
+      closedHeight: { type: String },
+      openHeight: { type: String },
     };
   }
 }
