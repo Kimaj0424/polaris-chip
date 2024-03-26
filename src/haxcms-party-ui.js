@@ -11,32 +11,41 @@ export class HaxcmsPartyUi extends DDD {
     super();
     /* idk how to get the user's handle so it's my username as a default for now */
     /* TODO: can i make the array size change based on how many users i have? would need to create a new list every time we add it then right?*/
-    this.party = [];
+    this.party = ["ezy5092", "","", "", "",  ];
   }
 
   static get styles() {
     return [
       super.styles,
       css`
-        :host {
-          display: flex;
-        }
-        .container {
-          background-color: #f2f2f2;
-          padding: 20px;
-        }
-        .button-panel {
-          display: flex;
-        }
+      :host {
+        
+        display: center;
+      }
+      .container {
+        background-color: #f2f2f2;
+        padding: 20px;
+        width: 100vh;
+        height: 620px;
+        
+      }
+      .button-panel {
+        display: flex;
+        
+      }
 
-        button {
-          font-family: "Press Start 2P", system-ui;
-          font-weight: 400;
-          font-style: normal;
-        }
-      `,
-    ];
-  }
+      button{
+        font-family: "Press Start 2P", system-ui;
+font-weight: 500;
+font-style: normal;
+color: blue;
+margin-left: 10px;
+height: 50px;
+border-width: 5px;
+      }
+    `,
+  ];
+}
 
   render() {
     return html`
@@ -47,18 +56,19 @@ export class HaxcmsPartyUi extends DDD {
               type="text"
               class="search-input"
               placeholder="Search party member"
-              @input="${this.handleInput}"
             />
-            <button class="add-button" @click="${this.addItem}">Add</button>
+            <button class="add-button" @click="${this.updateContainer}">
+              Add
+            </button>
             <button class="remove-button">Remove</button>
           </div>
-
-          <div>
-            ${this.party.map(
-              (member) =>
-                html`<rpg-character walking seed=${member}></rpg-character>`
-            )}
-          </div>
+          <div class="party">
+          <rpg-character seed=${this.party[0]}></rpg-character>
+          <rpg-character seed=${this.party[1]}></rpg-character>
+          <rpg-character seed=${this.party[2]}></rpg-character>
+          <rpg-character seed=${this.party[3]}></rpg-character>
+          <rpg-character seed=${this.party[4]}></rpg-character>
+        </div>
           <button class="save-button" @click="${this.makeItRain}">
             Save Party Members
           </button>
@@ -67,6 +77,7 @@ export class HaxcmsPartyUi extends DDD {
     `;
   }
 
+  
   handleInput(event) {
     const inputValue = event.target.value;
     // Remove any characters that are not lowercase letters or numbers (Adam's Notes)
@@ -106,14 +117,24 @@ export class HaxcmsPartyUi extends DDD {
       window.alert("Input cannot be empty.");
     }
   }
+  displayItem(item){
+    return html`<rpg-character seed="${item}"></rpg-character>`;  
+  }
+
+  updateContainer() {
+    const container = this.shadowRoot.querySelector(".party");
+    this.party.forEach((item) => {
+      (this.displayItem(item));
+    });
+  }
+
+  
 
   makeItRain() {
     import("@lrnwebcomponents/multiple-choice/lib/confetti-container.js").then(
       (module) => {
         setTimeout(() => {
-          this.shadowRoot
-            .querySelector("#confetti")
-            .setAttribute("popped", "");
+          this.shadowRoot.querySelector("#confetti").setAttribute("popped", "");
         }, 0);
       }
     );
@@ -121,9 +142,10 @@ export class HaxcmsPartyUi extends DDD {
 
   static get properties() {
     return {
-      party: { type: Array },
+      party: { type: String, reflect: true },
+      item: { type: String, reflect: true },
     };
   }
 }
 
-customElements.define(HaxcmsPartyUi.tag, HaxcmsPartyUi);
+globalThis.customElements.define(HaxcmsPartyUi.tag, HaxcmsPartyUi);
