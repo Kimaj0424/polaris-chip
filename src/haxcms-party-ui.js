@@ -9,84 +9,186 @@ export class HaxcmsPartyUi extends DDD {
 
   constructor() {
     super();
-    /* idk how to get the user's handle so it's my username as a default for now */
-    /* TODO: can i make the array size change based on how many users i have? would need to create a new list every time we add it then right?*/
-    this.party = ["ezy5092", "","", "", "",  ];
+    /* keydown event for the search bar, using logkey?*/
+    /* make the writing in the sarch bar destaurated */
+    /* make it have sounds when we write */
+    /* make the button have a sound when we click it */
+    /* use in put event */
+    /** tags on th chracters */
+    /* make the characters walk when save party is pressed */
+    /* make the characters walk when add is pressed */
+    this.changed = false;
+    this.party =
+      localStorage.getItem("party") != null
+        ? localStorage.getItem("party").split(",")
+        : ["zpg"];
   }
 
   static get styles() {
     return [
       super.styles,
       css`
-      :host {
-        
-        display: center;
-      }
-      .container {
-        background-color: #f2f2f2;
-        padding: 20px;
-        width: 100vh;
-        height: 620px;
-        
-      }
-      .button-panel {
-        display: flex;
-        
-      }
+        :host {
+          display: center;
+        }
+        .block {
+          width: var(--haxcms-party-ui-container, 90vw);
+          padding: var(--ddd-spacing-);
+          background-color: var(--ddd-theme-default-roarMaxlight);
+        }
 
-      button{
-        font-family: "Press Start 2P", system-ui;
-font-weight: 500;
-font-style: normal;
-color: blue;
-margin-left: 10px;
-height: 50px;
-border-width: 5px;
-      }
-    `,
-  ];
-}
+        .container {
+          margin: var(--ddd-spacing-4);
+          padding: var(--ddd-spacing-6);
+          border: 10px solid var(--ddd-theme-default-nittanyNavy);
+          box-shadow: -5px 0 0 0 black, 5px 0 0 0 black, 0 -5px 0 0 black,
+            0 5px 0 0 black;
+        }
+
+        .title {
+          font-family: "Press Start 2P", system-ui;
+          background-color: (var(--ddd-theme-default-roarMaxlight), white);
+          color: var(--ddd-theme-default-beaverBlue);
+          margin: 0px 0px -50px 30px;
+        }
+
+        .button-panel {
+          display: flex;
+          margin-left: var(--ddd-spacing-4);
+        }
+        .party {
+          display: inline-flexbox;
+          max-width: var(--haxcms-party-ui-party-width,90vw);
+          height: var(--haxcms-party-ui-party-height, 300px);
+          margin: var(--ddd-spacing-5);
+          color: var(--ddd-theme-default-roarMaxlight);
+        }
+
+        .search-input {
+          font-family: "Press Start 2P", system-ui;
+          font-size: var(--ddd-font-size-3xs);
+          min-width: 200px;
+          margin: var(--ddd-spacing-3);
+          padding: var(--ddd-spacing-5);
+          background-color: var(--ddd-theme-default-slateMaxLight);
+          color: var(--ddd-theme-default-wonderPurple);
+          box-shadow: -5px 0 0 0 black, 5px 0 0 0 black, 0 -5px 0 0 black,
+            0 5px 0 0 black;
+        }
+
+        .add-button {
+          font-family: "Press Start 2P", system-ui;
+          font-size: var(--ddd-font-size-3xs);
+          min-width: 150px;
+          margin: var(--ddd-spacing-3);
+          padding: var(--ddd-spacing-5);
+          background-color: var(--ddd-theme-default-futureLime);
+          color: var(--ddd-theme-default-wonderPurple);
+          box-shadow: -5px 0 0 0 black, 5px 0 0 0 black, 0 -5px 0 0 black,
+            0 5px 0 0 black;
+        }
+
+        .remove-button { 
+          font-family: "Press Start 2P", system-ui;
+          font-size: var(--ddd-font-size-3xs);
+          min-width: 150px;
+          margin: var(--ddd-spacing-3);
+          padding: var(--ddd-spacing-5);
+          background-color: var(--ddd-theme-default-original87Pink);
+          color:var(--ddd-theme-default-slateMaxLight);
+          box-shadow: -5px 0 0 0 black, 5px 0 0 0 black, 0 -5px 0 0 black,
+            0 5px 0 0 black;
+        }
+        .save-button { 
+          font-family: "Press Start 2P", system-ui;
+          font-size: var(--ddd-font-size-3xs);
+          min-width: 150px;
+          margin: var(--ddd-spacing-3);
+          padding: var(--ddd-spacing-5);
+          background-color: var(--ddd-theme-default-link);
+          color: var(--ddd-theme-default-slateMaxLight);
+          box-shadow: -5px 0 0 0 black, 5px 0 0 0 black, 0 -5px 0 0 black,
+            0 5px 0 0 black;
+        }
+
+        button:hover {
+          background-color: var(--ddd-theme-default-keystoneYellow);
+          color: var(--ddd-theme-default-potentialMidnight);
+        }
+      `,
+    ];
+  }
+
+  deleteData() {
+    localStorage.removeItem("party");
+  }
 
   render() {
     return html`
       <confetti-container id="confetti">
-        <div class="container">
-          <div class="button-panel">
-            <input
-              type="text"
-              class="search-input"
-              placeholder="Search party member"
-            />
-            <button class="add-button" @click="${this.updateContainer}">
-              Add
+        <div class="block">
+          <h1 class="title">CHOOSE YOUR PARTY</h1>
+          <div class="container">
+            <div class="button-panel">
+              <input
+                type="search"
+                class="search-input"
+                placeholder="Search party member..."
+                @input="${this.handleInput}"
+              />
+              <button class="add-button" @click="${this.addUser}">Add</button>
+              <button class="remove-button" @click="${this.remove}">
+                Remove
+              </button>
+            </div>
+            <div class="party">
+              ${this.party.map((item) => this.displayItem(item))}
+              <!-- this is property drilling. not the best idea-->
+            </div>
+            <button class="save-button" @click="${this.saveData}">
+              Save Party Members
             </button>
-            <button class="remove-button">Remove</button>
           </div>
-          <div class="party">
-          <rpg-character seed=${this.party[0]}></rpg-character>
-          <rpg-character seed=${this.party[1]}></rpg-character>
-          <rpg-character seed=${this.party[2]}></rpg-character>
-          <rpg-character seed=${this.party[3]}></rpg-character>
-          <rpg-character seed=${this.party[4]}></rpg-character>
-        </div>
-          <button class="save-button" @click="${this.makeItRain}">
-            Save Party Members
-          </button>
         </div>
       </confetti-container>
     `;
   }
 
-  
+  addUser() {
+    /*
+    const searchInput = document.querySelector(".search-input");
+    this.party = [...this.party, searchInput.value.toString()];
+    this.makeItRain();
+    
+    */
+    this.party = [...this.party, null];
+    this.changed = true;
+  }
+
+  saveData() {
+    if (this.changed) {
+      const myArray = this.party.toString();
+      localStorage.setItem("party", myArray);
+      console.log(localStorage.getItem("party").split(","));
+      this.makeItRain();
+    } else {
+      localStorage.removeItem("party");
+    }
+  }
+
+  remove() {
+    this.changed = false;
+  }
+
   handleInput(event) {
     const inputValue = event.target.value;
     // Remove any characters that are not lowercase letters or numbers (Adam's Notes)
-    const sanitizedValue = inputValue.replace(/[^a-z0-9]/g, '');
+    const sanitizedValue = inputValue.replace(/[^a-z0-9]/g, "");
     event.target.value = sanitizedValue.slice(0, 10); // Limit to 10 characters
   }
 
   addItem() {
-    const input = document.querySelector(".search-input").value;
+    const input = this.shadowRoot.querySelector(".search-input").value;
     // Validate if input is not empty
     if (input.trim() !== "") {
       // Add only if the party size is less than 5
@@ -96,9 +198,7 @@ border-width: 5px;
           // Check if the user is already in the party
           if (!this.party.includes(input)) {
             // Display confirmation alert
-            const confirmed = window.confirm(
-              `Add ${input} to the party?`
-            );
+            const confirmed = window.confirm(`Add ${input} to the party?`);
             if (confirmed) {
               this.party = [...this.party, input];
             }
@@ -117,18 +217,9 @@ border-width: 5px;
       window.alert("Input cannot be empty.");
     }
   }
-  displayItem(item){
-    return html`<rpg-character seed="${item}"></rpg-character>`;  
+  displayItem(item) {
+    return html`<rpg-character seed="${item}"></rpg-character>`;
   }
-
-  updateContainer() {
-    const container = this.shadowRoot.querySelector(".party");
-    this.party.forEach((item) => {
-      (this.displayItem(item));
-    });
-  }
-
-  
 
   makeItRain() {
     import("@lrnwebcomponents/multiple-choice/lib/confetti-container.js").then(
@@ -142,8 +233,7 @@ border-width: 5px;
 
   static get properties() {
     return {
-      party: { type: String, reflect: true },
-      item: { type: String, reflect: true },
+      party: { type: Array, reflect: true },
     };
   }
 }
