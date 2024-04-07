@@ -7,20 +7,8 @@ export class HaxcmsPartyUi extends DDD {
     return "haxcms-party-ui";
   }
 
-  /*
-  HI WILL (Or Dhari, or Donovan, idk Will is usually the one who grades my stuff)
-  QUICK QUESTION. So for some reason my search input, the input html tag one, only works when I make search-input an Id, and not a class.
-  I'm not sure why that is, but it works so I'm not going to question it. I'm just curious if you know why that is.
-  Thank you for your service and time! Stay cool 😎
-  */
-
   constructor() {
     super();
-    /* make the writing in the sarch bar destaurated */
-    /* make it have sounds when we write */
-    /* make the button have a sound when we click it */
-    /* use in put event */
-    /** tags on th chracters */
     this.minPartySize = 5;
     this.changed = false;
     this.saved = false;
