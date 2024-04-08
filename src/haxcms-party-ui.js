@@ -183,7 +183,7 @@ export class HaxcmsPartyUi extends DDD {
           window.alert(username + " is already in the party.");
         }
       } else {
-        window.alert("Username must be lowercase letters and numbers only.");
+        window.alert("Username must be lowercase letters, less than 10 characters, andn numbers only.");
       }
       this.shadowRoot.getElementById("search-input").value = "";
       this.shadowRoot.getElementById("search-input").focus();    
