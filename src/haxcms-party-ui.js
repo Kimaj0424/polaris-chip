@@ -26,10 +26,6 @@ export class HaxcmsPartyUi extends DDD {
           display: center;
         }
 
-        :host([saved]) {
-          transform: rotate(360deg);
-          transition: transform 1s;
-        }
         .block {
           width: var(--haxcms-party-ui-container, 95vw);
           padding: var(--ddd-spacing-6);
@@ -153,7 +149,7 @@ export class HaxcmsPartyUi extends DDD {
                 @keydown="${this.pressEnter}"
               />
               <button class="add-button" @click="${this.addUser}">Add</button>
-              <button class="remove-button" @click="${this.deleteData}">
+              <button class="remove-button" @click="${this.removeUser}">
                 Remove
               </button>
             </div>
@@ -193,6 +189,23 @@ export class HaxcmsPartyUi extends DDD {
       
     }
     $(".party").animate({ scrollTop: $(".party > *").height() }, "fast");
+  }
+
+  removeUser() {
+    const input = this.shadowRoot.getElementById("search-input");
+    const username = input.value.trim();
+    if (username !== "") {
+      const index = this.party.indexOf(username);
+      if (index !== -1) {
+        this.party.splice(index, 1);
+        this.toggleChanged();
+        this.shadowRoot.getElementById("remove-sound").play();
+      } else {
+        window.alert(username + " is not in the party.");
+      }
+      this.shadowRoot.getElementById("search-input").value = "";
+      this.shadowRoot.getElementById("search-input").focus();
+    }
   }
 
   pressEnter(event) {
