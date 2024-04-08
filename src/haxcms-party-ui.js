@@ -118,6 +118,10 @@ export class HaxcmsPartyUi extends DDD {
             0 5px 0 0 black;
         }
 
+        .username {
+        color: black;
+      }
+
         button:hover,
         button:focus {
           background-color: var(--ddd-theme-default-keystoneYellow);
@@ -244,10 +248,10 @@ export class HaxcmsPartyUi extends DDD {
     return html`
       <div class="character-container">
         <rpg-character seed="${item}"></rpg-character>
-        <p style="color: black;">${item}</p>
+        <p class="username">${item}</p>
       </div>
     `;
-  }
+  }  
 
   makeItRain() {
     import("@lrnwebcomponents/multiple-choice/lib/confetti-container.js").then(
