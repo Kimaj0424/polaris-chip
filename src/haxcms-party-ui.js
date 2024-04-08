@@ -241,11 +241,12 @@ export class HaxcmsPartyUi extends DDD {
   }
 
   displayItem(item) {
-    if (this.saved) {
-      return html`<<rpg-character walking seed="${item}"></rpg-character>>`;
-    } else {
-      return html`<rpg-character seed="${item}"></rpg-character>`;
-    }
+    return html`
+      <div class="character-container">
+        <rpg-character seed="${item}"></rpg-character>
+        <p style="color: black;">${item}</p>
+      </div>
+    `;
   }
 
   makeItRain() {
@@ -268,4 +269,4 @@ export class HaxcmsPartyUi extends DDD {
   }
 }
 
-globalThis.customElements.define(HaxcmsPartyUi.tag, HaxcmsPartyUi);
+customElements.define(HaxcmsPartyUi.tag, HaxcmsPartyUi);
